@@ -4,7 +4,7 @@
     <!-- Start the GUIs -->
     <arg name="start_gazebo" default="true"/>
     <arg name="gazebo_gui"   default ="true"/>
-    <arg name="start_rviz" default="true"/>
+    <arg name="start_rviz" default="false"/>
     
     <!-- Initial position in Gazebo -->
     <arg name="x0" default="0"/>
@@ -18,7 +18,7 @@
     <arg name="vision" default="true"/> <!-- True if the arm has a Vision module -->
     
     <!-- Default gripper for Gen3 is none, default gripper for Gen3 lite is gen3_lite_2f -->
-    <arg name="gripper" default="" if="$(eval arg('arm') == 'gen3')"/>
+    <arg name="gripper" default="robotiq_2f_85" if="$(eval arg('arm') == 'gen3')"/>
     <arg name="gripper" default="gen3_lite_2f" if="$(eval arg('arm') == 'gen3_lite')"/>
     
     <arg name="robot_name" default="my_$(arg arm)"/>
@@ -92,15 +92,18 @@
             if="$(eval not arg('gripper'))"/>
 
         <!-- With gripper -->
-        <node name="$(arg prefix)$(arg arm)_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        <!-- node name="$(arg prefix)$(arg arm)_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             output="screen" args="$(arg prefix)$(arg arm)_joint_trajectory_controller $(arg prefix)joint_state_controller $(arg prefix)$(arg gripper)_gripper_controller"
+            unless="$(eval not arg('gripper'))"/ -->
+        <node name="$(arg prefix)$(arg arm)_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+            output="screen" args="$(arg prefix)joint_state_controller $(arg prefix)$(arg gripper)_gripper_controller"
             unless="$(eval not arg('gripper'))"/>
 
-        <!-- Individual position controllers are stopped at first -->
+        <!-- Individual position controllers not stopped -->
 
         <!-- For 6 DOF arms -->
         <node name="$(arg prefix)$(arg arm)_position_controllers_spawner" pkg="controller_manager" type="spawner" respawn="false"
-            output="screen" if="$(eval arg('dof') == 6)" args=" --stopped
+            output="screen" if="$(eval arg('dof') == 6)" args="
             $(arg prefix)joint_1_position_controller
             $(arg prefix)joint_2_position_controller
             $(arg prefix)joint_3_position_controller
@@ -109,7 +112,7 @@
             $(arg prefix)joint_6_position_controller"/>
         <!-- For 7 DOF arms -->
         <node name="$(arg prefix)$(arg arm)_position_controllers_spawner" pkg="controller_manager" type="spawner" respawn="false"
-            output="screen" if="$(eval arg('dof') == 7)" args=" --stopped
+            output="screen" if="$(eval arg('dof') == 7)" args="
             $(arg prefix)joint_1_position_controller
             $(arg prefix)joint_2_position_controller
             $(arg prefix)joint_3_position_controller
@@ -156,11 +159,11 @@
         </node>
 
         <!-- Test if homing the robot with MoveIt ended correctly -->
-        <test test-name="paramtest_gazebo_initialization" pkg="rostest" type="paramtest">
+        <!-- test test-name="paramtest_gazebo_initialization" pkg="rostest" type="paramtest">
             <param name="param_name_target" value="is_initialized" />
             <param name="param_value_expected" value="true" />
             <param name="wait_time" value="60" />
-        </test> 
+        </test --> 
 
         <!-- Start RViz -->
         <node name="rviz" pkg="rviz" type="rviz" if="$(arg start_rviz)"/> 
