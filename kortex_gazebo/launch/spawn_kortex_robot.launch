@@ -1,4 +1,6 @@
 <launch>
+    <!-- Gazebo simulation -->
+    <!-- roslaunch kortex_gazebo spawn_kortex_robot.launch -->    
 
     <!-- Arguments -->
     <!-- Start the GUIs -->
@@ -167,7 +169,12 @@
 
         <!-- Start RViz -->
         <node name="rviz" pkg="rviz" type="rviz" if="$(arg start_rviz)"/> 
+
+        <xacro:include file="$(find kortex_description)/launch/world_xy.xacro"/>
+
+        <xacro:model_kinova reach="0.90"/>
     
     </group>
+
 
 </launch>

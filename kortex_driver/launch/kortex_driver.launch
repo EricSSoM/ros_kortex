@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-    
+    <!-- Live robot -->
+    <!-- roslaunch kortex_driver kortex_driver.launch start_rviz:=false start_moveit:=false ip_address:=192.168.2.100 -->
     <!-- Arm configuration -->
     <arg name="arm" default="gen3"/>
     <arg name="dof" default="7" if="$(eval arg('arm') == 'gen3')"/> <!-- Number of degrees of freedom of the arm -->

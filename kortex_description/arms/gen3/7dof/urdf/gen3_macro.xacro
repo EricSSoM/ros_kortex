@@ -31,6 +31,7 @@
     <link name="${prefix}shoulder_link">
       <inertial>
         <origin xyz="-2.3E-05 -0.010364 -0.07336" rpy="0 0 0" />
+        <!--origin xyz="-2.3E-05 -0.010364 -0.1" rpy="0 0 0" /-->
         <mass value="1.3773" />
         <inertia ixx="0.00457" ixy="1E-06" ixz="2E-06" iyy="0.004831" iyz="0.000448" izz="0.001409" />
       </inertial>
@@ -331,6 +332,157 @@
         <parent link="${prefix}end_effector_link" />
         <child  link="${prefix}camera_color_frame" />
       </joint>
+
+      <link name="${prefix}imu_link" />
+      <joint name="${prefix}imu_module" type="fixed">
+        <origin xyz="0 0.05639 -0.00305" rpy="3.14159265358979 3.14159265358979 0" />
+        <parent link="${prefix}end_effector_link" />
+        <child  link="${prefix}imu_link" />
+      </joint>
+
+
+
+    <gazebo reference="${prefix}camera_color_frame">
+      <sensor name="camera_rgb" type="camera">
+        <!--pose degrees="true">0 0 0 0 0 -90</pose-->
+        <!-- 20 cm between cameras: pose degrees="true">-0.15 0.0 0.0 0 0 -90</pose-->
+	<!-- 10 cm between cameras -->
+        <!--pose>-0.05 0.0 0.0 0 0 -90</pose-->
+        <!--pose>0.032 -0.03 0.0 0 0 4.71</pose-->
+        <!--pose>0.075 -0.03 0.0 0 0 4.71</pose-->
+        <pose>0.0 0.0 0.0   0.0 -1.5708 0.0</pose>
+        <visualize>true</visualize>
+        <update_rate>4</update_rate>
+        <!--always_on>1</always_on-->
+        <camera name="camera_rgb">
+          <!-- zoom cameras horizontal_fov>0.8</horizontal_fov -->
+          <!--pose>-0.25 0.0 0.0 0 0 0</pose-->
+          <!--horizontal_fov>1.21126</horizontal_fov-->
+          <horizontal_fov>1.0472</horizontal_fov>
+          <!--image_topic_name>image_raw</image_topic_name>
+          <camera_info_topic>camera_info</camera_info_topic-->
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>RGB_INT8</format>
+          </image>
+          <clip>
+            <near>0.001</near>
+            <far>25</far>
+          </clip>
+          <!--lens>
+            <intrinsics>
+              <fx>100</fx>
+              <fy>100</fy>
+              <cx>420</cx>
+              <cy>240</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens-->
+        </camera>
+        <plugin name="camera_rgb_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>4.0</updateRate>
+            <cameraName>realsense/camera_rgb</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>${prefix}camera_color_frame</frameName>
+            <!--frame_name>camera_link</frame_name>
+                <always_on>true</always_on>
+            <update_rate>0.0</update_rate>
+            <camera_name>/realsense/camera_right</camera_name>
+            <image_topic_name>image_raw</image_topic_name>
+            <camera_info_topic_name>camera_info</camera_info_topic_name-->
+            <hackBaseline>0.4</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+    </gazebo>
+      
+
+
+    <gazebo reference="${prefix}camera_depth_frame">
+      <sensor name="camera_depth" type="depth">
+        <pose>0.0 0.0 0.0   0.0 -1.5708 0.0</pose>
+        <visualize>false</visualize>
+        <update_rate>4</update_rate>
+        <!--always_on>1</always_on-->
+        <camera name="camera_depth">
+          <!-- zoom cameras horizontal_fov>0.8</horizontal_fov -->
+          <!--pose>-0.25 0.0 0.0 0 0 0</pose-->
+          <!--horizontal_fov>1.21126</horizontal_fov-->
+          <horizontal_fov>1.0472</horizontal_fov>
+          <!--image_topic_name>image_raw</image_topic_name>
+          <camera_info_topic>camera_info</camera_info_topic-->
+          <image>
+            <width>424</width>
+            <height>240</height>
+            <!--format>RGB_INT8</format-->
+          </image>
+          <clip>
+            <near>0.001</near>
+            <far>25</far>
+          </clip>
+          <!--lens>
+            <intrinsics>
+              <fx>100</fx>
+              <fy>100</fy>
+              <cx>420</cx>
+              <cy>240</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens-->
+        </camera>
+        <plugin name="camera_depth_controller" filename="libgazebo_ros_depth_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>4.0</updateRate>
+            <cameraName>realsense/camera_depth</cameraName>
+            <!--imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName-->
+            <depthImageTopicName>depth_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName>
+            <frameName>${prefix}camera_depth_frame</frameName>
+            <!--frame_name>camera_link</frame_name>
+                <always_on>true</always_on>
+            <update_rate>0.0</update_rate>
+            <camera_name>/realsense/camera_right</camera_name>
+            <image_topic_name>image_raw</image_topic_name>
+            <camera_info_topic_name>camera_info</camera_info_topic_name-->
+            <hackBaseline>0.55</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+    </gazebo>
+      
+
+    <gazebo reference="imu_link">
+      <gravity>true</gravity>
+      <sensor name="imu_sensor" type="imu">
+        <pose>0.0 0.0 0.0   0.0 -1.5708 0.0</pose>
+        <visualize>false</visualize>
+        <update_rate>8</update_rate>
+        <always_on>1</always_on>
+        <plugin name="imu_controller" filename="libgazebo_ros_imu_sensor.so">
+            <topicName>imu</topicName>
+            <bodyName>imu_link</bodyName>
+            <alwaysOn>true</alwaysOn>
+            <updateRateHZ>8</updateRateHZ>
+            <frameName>imu_link</frameName>
+            <gaussianNoise>0.0</gaussianNoise>
+            <xyzOffset>0 0 0</xyzOffset>
+            <rpyOffset>0 0 0</rpyOffset>
+        </plugin>
+      </sensor>
+    </gazebo>
+      
     </xacro:if>
   </xacro:macro>
 </robot>
