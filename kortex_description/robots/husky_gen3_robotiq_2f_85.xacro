@@ -1,18 +1,41 @@
 <?xml version="1.0"?>
 
 <robot name="gen3_robotiq_2f_85" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Husky -->
+    <xacro:arg name="laser_enabled" default="false" />
+    <xacro:arg name="ur5_enabled" default="false" />
+    <xacro:arg name="kinect_enabled" default="false" />
+
+    <xacro:include filename="$(find husky_description)/urdf/husky.urdf.xacro"/>
+    <xacro:include filename="$(find husky_gazebo)/urdf/husky.gazebo.xacro" />
+
+    <!-- Gazebo plugin for ROS Control -->
+    <!--gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>my_gen3</robotNamespace>
+      </plugin>
+    </gazebo-->
+
+    <!--xacro:husky_robot /-->
+    <xacro:husky_robot_gazebo />
     
-    <!-- Arguments -->
+    <!-- Gen3 -->
     <xacro:arg name="arm" default="gen3" />
     <xacro:arg name="dof" default="7" />
     <xacro:arg name="vision" default="true" />
-
     <xacro:arg name="gripper" default="robotiq_2f_85" />
-
+    <xacro:arg name="sim" default="false" />
     <xacro:arg name="prefix" default="" />
 
     <xacro:include filename="$(find kortex_description)/robots/husky_kortex_robot.xacro" />
-    <xacro:load_robot arm="$(arg arm)" gripper="$(arg gripper)" dof="$(arg dof)" vision="$(arg vision)" prefix="$(arg prefix)" />
+    <xacro:load_robot arm="$(arg arm)" gripper="$(arg gripper)" dof="$(arg dof)" vision="$(arg vision)" sim="$(arg sim)" prefix="$(arg prefix)" />
+
+    <joint name="husky_arm" type="fixed">
+      <parent link="top_plate_link" />
+      <child link="$(arg prefix)base_link" />
+      <origin xyz="0.2206 0 0" rpy="0 0 0" />
+    </joint>
 
     <!--xacro:include filename="$(find kortex_description)/launch/world_xy.xacro"/>
     <xacro:model_kinova reach="0.90"/-->

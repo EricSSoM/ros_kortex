@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
-<robot name="kinova_arm" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="load_robot" params="arm gripper dof vision prefix">
+    <xacro:macro name="load_robot" params="arm gripper dof vision sim prefix">
             
         <!-- Files to include -->
         <xacro:include filename="$(find kortex_description)/arms/${arm}/${dof}dof/urdf/${arm}_macro.xacro" />
@@ -10,6 +10,15 @@
             <xacro:include filename="$(find kortex_description)/grippers/${gripper}/urdf/${gripper}_macro.xacro" />
         </xacro:unless>
         
+        <xacro:if value="${sim}">
+            <!-- Arm transmission elements-->
+            <xacro:include filename="$(find kortex_description)/arms/${arm}/${dof}dof/urdf/${arm}_transmission_macro.xacro" />
+            <!-- Gripper transmission elements if there is a gripper-->
+            <xacro:unless value="${not gripper}">
+                <xacro:include filename="$(find kortex_description)/grippers/${gripper}/urdf/${gripper}_transmission_macro.xacro" />
+            </xacro:unless>
+        </xacro:if>
+
         <!-- Run the macros -->
         
         <!-- Load the arm -->
@@ -33,14 +42,21 @@
             </joint>
         </xacro:if>
 
-        <!-- Link gen3 with husky -->
-        <link name="husky_gen3" />
-        <joint name="husky_gen3_joint" type="fixed">
-          <child link="${prefix}base_link" />
-          <parent link="top_plate_link" />
-          <origin xyz="0 0 0" rpy="0 0 0" />    
-        </joint> 
+        <!-- Load the Gazebo transmissions and gazebo_ros_control plugin -->
+        <xacro:if value="${sim}">
 
+            <xacro:load_gazebo_arm_transmissions prefix="${prefix}"/>
+
+            <xacro:unless value="${not gripper}">
+                <xacro:load_gazebo_gripper_transmissions prefix="${prefix}"/>
+            </xacro:unless>
+
+            <gazebo>
+                <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                    <legacyModeNS>true</legacyModeNS>
+                </plugin>
+            </gazebo>
+
+        </xacro:if>
     </xacro:macro>
-    
 </robot>

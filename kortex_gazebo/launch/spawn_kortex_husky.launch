@@ -9,16 +9,20 @@
     <arg name="start_rviz" default="false"/>
     
     <!-- Initial position in Gazebo -->
-    <arg name="x0" default="0"/>
+    <arg name="x0" default="-0.2206"/>
     <arg name="y0" default="0"/>
     <arg name="z0" default="0"/>
+    <arg name="yaw" default="3.14159"/>
 
     <!-- Arm type -->
     <arg name="arm" default="gen3"/>
     <arg name="dof" default="7" if="$(eval arg('arm') == 'gen3')"/> <!-- Number of degrees of freedom of the arm -->
     <arg name="dof" default="6" if="$(eval arg('arm') == 'gen3_lite')"/> <!-- Number of degrees of freedom of the arm -->
     <arg name="vision" default="true"/> <!-- True if the arm has a Vision module -->
-    
+
+    <!-- Husky -->
+    <arg name="joystick" default="false" />
+
     <!-- Default gripper for Gen3 is none, default gripper for Gen3 lite is gen3_lite_2f -->
     <arg name="gripper" default="robotiq_2f_85" if="$(eval arg('arm') == 'gen3')"/>
     <arg name="gripper" default="gen3_lite_2f" if="$(eval arg('arm') == 'gen3_lite')"/>
@@ -33,24 +37,46 @@
     <arg name="paused" default="true"/>
 
     <!-- Start Gazebo -->
-    <include file="$(find kortex_gazebo)/launch/start_gazebo.launch" if="$(arg start_gazebo)">
+    <!--include file="$(find kortex_gazebo)/launch/start_gazebo.launch" if="$(arg start_gazebo)">
             <arg name="gui" value="$(arg gazebo_gui)"/>
             <arg name="use_sim_time" value="$(arg use_sim_time)"/>
             <arg name="debug" value="$(arg debug)"/>
             <arg name="paused" value="$(arg paused)"/>
+    </include-->
+
+    <!--arg name="world_name" default="$(find kortex_gazebo)/worlds/jaco.world"/-->
+    <arg name="world_name" default="$(find kortex_gazebo)/worlds/black_room.world"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(arg world_name)"/>
+      <arg name="debug" value="$(arg debug)" />
+      <arg name="gui" value="true" />
+      <arg name="paused" value="true"/>  do not change this value
+      <arg name="verbose" value="true"/>
+      <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+      <arg name="headless" value="false"/>
     </include>
+    
 
     <!-- Delay before homing the arm -->
     <arg name="start_delay_seconds" default="10"/>
 
     <group ns="$(arg robot_name)">
 
+        <include file="$(find husky_control)/launch/control.launch"> </include>
+        <include file="$(find husky_control)/launch/teleop.launch">
+                 <arg name="joystick" value="$(arg joystick)" />
+        </include>
+        <group if="$(optenv HUSKY_REALSENSE_ENABLED 0)">
+              <include file="$(find husky_gazebo)/launch/realsense.launch" />
+        </group>
+
         <!-- Load the description for the robot -->
         <!-- Without gripper -->
-        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find kortex_description)/robots/$(arg arm).xacro dof:=$(arg dof) vision:=$(arg vision) sim:=true prefix:=$(arg prefix)"
+        <param name="robot_description" command="$(find xacro)/xacro $(find kortex_description)/robots/husky_$(arg arm).xacro dof:=$(arg dof) vision:=$(arg vision) sim:=true prefix:=$(arg prefix)"
             if="$(eval not arg('gripper'))"/>
         <!-- With gripper -->
-        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find kortex_description)/robots/$(arg arm)_$(arg gripper).xacro dof:=$(arg dof) vision:=$(arg vision) sim:=true prefix:=$(arg prefix)"
+        <param name="robot_description" command="$(find xacro)/xacro $(find kortex_description)/robots/husky_$(arg arm)_$(arg gripper).xacro dof:=$(arg dof) vision:=$(arg vision) sim:=true prefix:=$(arg prefix)"
             unless="$(eval not arg('gripper'))"/>
 
         <!-- Spawn the robot in Gazebo -->
@@ -58,7 +84,7 @@
         <!-- <param name="initial_positions" value=""/> TODO -->
         <!-- Without gripper -->
         <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -param robot_description -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z $(arg z0)
+            args="-urdf -param robot_description -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z $(arg z0) -Y $(arg yaw)
                 -robot_namespace $(arg robot_name)
                 -J $(arg prefix)joint_1 1.57
                 -J $(arg prefix)joint_2 0.35
@@ -70,7 +96,7 @@
             if="$(eval not arg('gripper'))"/> <!--TODO-->
         <!-- With gripper -->
         <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -param robot_description -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z $(arg z0)
+        args="-urdf -param robot_description -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z $(arg z0) -Y $(arg yaw)
             -robot_namespace $(arg robot_name)
                 -J $(arg prefix)joint_1 1.57
                 -J $(arg prefix)joint_2 0.35
@@ -94,9 +120,9 @@
             if="$(eval not arg('gripper'))"/>
 
         <!-- With gripper -->
-        <!-- node name="$(arg prefix)$(arg arm)_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        <!--node name="$(arg prefix)$(arg arm)_trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             output="screen" args="$(arg prefix)$(arg arm)_joint_trajectory_controller $(arg prefix)joint_state_controller $(arg prefix)$(arg gripper)_gripper_controller"
-            unless="$(eval not arg('gripper'))"/ -->
+            unless="$(eval not arg('gripper'))"/-->
         <node name="$(arg prefix)$(arg arm)_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             output="screen" args="$(arg prefix)joint_state_controller $(arg prefix)$(arg gripper)_gripper_controller"
             unless="$(eval not arg('gripper'))"/>
@@ -169,10 +195,6 @@
 
         <!-- Start RViz -->
         <node name="rviz" pkg="rviz" type="rviz" if="$(arg start_rviz)"/> 
-
-        <xacro:include file="$(find kortex_description)/launch/world_xy.xacro"/>
-
-        <xacro:model_kinova reach="0.90"/>
     
     </group>
 
