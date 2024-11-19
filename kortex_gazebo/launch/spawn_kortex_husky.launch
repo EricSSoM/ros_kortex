@@ -44,8 +44,7 @@
             <arg name="paused" value="$(arg paused)"/>
     </include-->
 
-    <!--arg name="world_name" default="$(find kortex_gazebo)/worlds/jaco.world"/-->
-    <arg name="world_name" default="$(find kortex_gazebo)/worlds/black_room.world"/>
+    <arg name="world_name" default="$(find kortex_gazebo)/worlds/black_room_xy.world"/>
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="world_name" value="$(arg world_name)"/>
@@ -56,7 +55,6 @@
       <arg name="use_sim_time" value="$(arg use_sim_time)"/>
       <arg name="headless" value="false"/>
     </include>
-    
 
     <!-- Delay before homing the arm -->
     <arg name="start_delay_seconds" default="10"/>
