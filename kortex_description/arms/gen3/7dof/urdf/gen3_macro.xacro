@@ -97,7 +97,7 @@
         link="${prefix}half_arm_1_link" />
       <axis
         xyz="0 0 1" />
-      <limit lower="-2.24" upper="2.24" effort="39" velocity="1.3963" />
+      <limit lower="-2.25" upper="2.25" effort="39" velocity="1.3963" />
     </joint>
     <link name="${prefix}half_arm_2_link">
       <inertial>
@@ -237,7 +237,7 @@
         link="${prefix}spherical_wrist_2_link" />
       <axis
         xyz="0 0 1" />
-      <limit lower="-2.09" upper="2.09" effort="9" velocity="1.2218" />
+      <limit lower="-2.1" upper="2.1" effort="9" velocity="1.2218" />
     </joint>
     <xacro:if value="${vision}">
     <link name="${prefix}bracelet_link">
@@ -314,21 +314,22 @@
         xyz="0 0 0" />
     </joint>
     <xacro:if value="${vision}">
-      <link name="${prefix}camera_link" />
+      <!--link name="${prefix}camera_link" />
       <joint name="${prefix}camera_module" type="fixed">
         <origin xyz="0 0.05639 -0.00305" rpy="3.14159265358979 3.14159265358979 0" />
         <parent link="${prefix}end_effector_link" />
         <child  link="${prefix}camera_link" />
-      </joint>
+      </joint-->
       <link name="${prefix}camera_depth_frame" />
       <joint name="${prefix}depth_module" type="fixed">
-        <origin xyz="0.0275 0.066 -0.00305" rpy="3.14159265358979 3.14159265358979 0" />
+        <!--origin xyz="0.0275 0.066 -0.00305" rpy="3.14159265358979 3.14159265358979 0" /-->
+        <origin xyz="0.0275 0.066 0.00" rpy="3.14159265358979 3.14159265358979 1.5708" />
         <parent link="${prefix}end_effector_link" />
         <child  link="${prefix}camera_depth_frame" />
       </joint>
       <link name="${prefix}camera_color_frame" />
       <joint name="${prefix}color_module" type="fixed">
-        <origin xyz="0 0.05639 -0.00305" rpy="3.14159265358979 3.14159265358979 0" />
+        <origin xyz="0 0.05639 0.00" rpy="3.14159265358979 3.14159265358979 1.5708" />
         <parent link="${prefix}end_effector_link" />
         <child  link="${prefix}camera_color_frame" />
       </joint>
@@ -358,7 +359,8 @@
           <!-- zoom cameras horizontal_fov>0.8</horizontal_fov -->
           <!--pose>-0.25 0.0 0.0 0 0 0</pose-->
           <!--horizontal_fov>1.21126</horizontal_fov-->
-          <horizontal_fov>1.0472</horizontal_fov>
+          <horizontal_fov>1.0472</horizontal_fov> <!-- 1.0472 is 60 degrees -->
+          <!--horizontal_fov>0.932</horizontal_fov--> <!-- camera is 60 degrees FOV diagonal, 16:9, thus 53.4 FOV horizontal -->
           <!--image_topic_name>image_raw</image_topic_name>
           <camera_info_topic>camera_info</camera_info_topic-->
           <image>
@@ -415,7 +417,8 @@
           <!-- zoom cameras horizontal_fov>0.8</horizontal_fov -->
           <!--pose>-0.25 0.0 0.0 0 0 0</pose-->
           <!--horizontal_fov>1.21126</horizontal_fov-->
-          <horizontal_fov>1.0472</horizontal_fov>
+          <!--horizontal_fov>1.0472</horizontal_fov-->
+          <horizontal_fov>1.129</horizontal_fov>
           <!--image_topic_name>image_raw</image_topic_name>
           <camera_info_topic>camera_info</camera_info_topic-->
           <image>
@@ -445,6 +448,7 @@
             <cameraInfoTopicName>camera_info</cameraInfoTopicName-->
             <depthImageTopicName>depth_raw</depthImageTopicName>
             <depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName>
+            <pointCloudTopicName>depth</pointCloudTopicName>
             <frameName>${prefix}camera_depth_frame</frameName>
             <!--frame_name>camera_link</frame_name>
                 <always_on>true</always_on>

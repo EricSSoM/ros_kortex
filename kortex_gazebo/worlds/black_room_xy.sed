@@ -2,14 +2,14 @@
 
 <world name="default" xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-  <!-- To generate a room with floor, walls and hexagons:
+  <!-- To generate a room with floor, walls and hexagons (black_room_xy.world):
        1- Convert (x,y) hexa position into (x,y) cm position and edit into this file (replace x and y by hexa coordinates)
           Also specify maximum arm reach (0.9) in this case:
           sh gazebo_hexa.sh 3 3 | xargs -l bash -c 'sed -e "s+@x+$0+g" -e "s+@y+$1+g" -e "s+@w+0.9+g" black_room_xy.sed > black_room_xy.xacro'
        2- Convert xacro file to urdf:
           xacro black_room_xy.xacro > black_room_xy.sdf
        3- Convert URDF to SDF:
-          sed -e 's\\"<world"\\"<sdf version='1.4'> <world"\\g' -e 's\\"</world>"\\"</world> </sdf>"\\g' > black_room_xy.world
+          sed -e 's+<world+<sdf version="1.4"> <world+g' -e 's+</world>+</world> </sdf>+g' > black_room_xy.world
   -->
       
           <include> <uri>model://sun</uri> </include>
