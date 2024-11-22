@@ -36,6 +36,7 @@ KortexArmDriver::KortexArmDriver(ros::NodeHandle nh):   m_node_handle(nh),
     // ROS Services are always started
     initRosServices();
 
+    ROS_INFO("%sThe Kortex driver has initialized ROS services correctly!%s", GREEN_COLOR_CONSOLE, RESET_COLOR_CONSOLE);
     // Enable ROS Service simulation if not with a real robot
     if (!m_is_real_robot)
     {
@@ -43,6 +44,7 @@ KortexArmDriver::KortexArmDriver(ros::NodeHandle nh):   m_node_handle(nh),
         registerSimulationHandlers();
     }
 
+    ROS_INFO("%sThe Kortex driver has initialized Simulation handlers correctly!%s", GREEN_COLOR_CONSOLE, RESET_COLOR_CONSOLE);
     // Start the thread to publish the feedback and joint states
     m_pub_base_feedback = m_node_handle.advertise<kortex_driver::BaseCyclic_Feedback>("base_feedback", 1000);
     m_pub_joint_state = m_node_handle.advertise<sensor_msgs::JointState>("base_feedback/joint_state", 1000);
@@ -87,8 +89,8 @@ KortexArmDriver::~KortexArmDriver()
     if (!m_is_real_robot)
     {
 
-      //delete m_action_server_follow_joint_trajectory;
-      //delete m_action_server_follow_cartesian_trajectory;
+      delete m_action_server_follow_joint_trajectory;
+      delete m_action_server_follow_cartesian_trajectory;
 
         if (m_action_server_gripper_command)
         {
@@ -515,10 +517,10 @@ void KortexArmDriver::initRosServices()
 void KortexArmDriver::startActionServers()
 {
     // Start Action servers
-    // m_action_server_follow_joint_trajectory = new JointTrajectoryActionServer(m_prefix + m_arm_name + "_joint_trajectory_controller/follow_joint_trajectory", m_node_handle, m_base, m_base_cyclic, m_control_config, m_use_hard_limits);
+    m_action_server_follow_joint_trajectory = new JointTrajectoryActionServer(m_prefix + m_arm_name + "_joint_trajectory_controller/follow_joint_trajectory", m_node_handle, m_base, m_base_cyclic, m_control_config, m_use_hard_limits);
     // Start Gripper Action Server if the arm has a gripper
     
-    // m_action_server_follow_cartesian_trajectory = new CartesianTrajectoryActionServer("cartesian_trajectory_controller/follow_cartesian_trajectory", m_node_handle, m_base, m_base_cyclic);
+    m_action_server_follow_cartesian_trajectory = new CartesianTrajectoryActionServer("cartesian_trajectory_controller/follow_cartesian_trajectory", m_node_handle, m_base, m_base_cyclic);
     
     m_action_server_gripper_command = nullptr;
     if (isGripperPresent())
@@ -703,8 +705,8 @@ void KortexArmDriver::registerSimulationHandlers()
     base_services_simulation->ExecuteActionHandler = std::bind(&KortexArmSimulation::ExecuteAction, m_simulator.get(), std::placeholders::_1);
     base_services_simulation->StopActionHandler = std::bind(&KortexArmSimulation::StopAction, m_simulator.get(), std::placeholders::_1);
     // Other services
-    // base_services_simulation->PlayCartesianTrajectoryHandler = std::bind(&KortexArmSimulation::PlayCartesianTrajectory, m_simulator.get(), std::placeholders::_1);
-    // base_services_simulation->PlayJointTrajectoryHandler = std::bind(&KortexArmSimulation::PlayJointTrajectory, m_simulator.get(), std::placeholders::_1);
+    base_services_simulation->PlayCartesianTrajectoryHandler = std::bind(&KortexArmSimulation::PlayCartesianTrajectory, m_simulator.get(), std::placeholders::_1);
+    base_services_simulation->PlayJointTrajectoryHandler = std::bind(&KortexArmSimulation::PlayJointTrajectory, m_simulator.get(), std::placeholders::_1);
     base_services_simulation->SendJointSpeedsCommandHandler = std::bind(&KortexArmSimulation::SendJointSpeedsCommand, m_simulator.get(), std::placeholders::_1);
     base_services_simulation->SendGripperCommandHandler = std::bind(&KortexArmSimulation::SendGripperCommand, m_simulator.get(), std::placeholders::_1);
     base_services_simulation->StopHandler = std::bind(&KortexArmSimulation::Stop, m_simulator.get(), std::placeholders::_1);

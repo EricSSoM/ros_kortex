@@ -444,11 +444,11 @@
             <alwaysOn>true</alwaysOn>
             <updateRate>4.0</updateRate>
             <cameraName>realsense/camera_depth</cameraName>
-            <!--imageTopicName>image_raw</imageTopicName>
-            <cameraInfoTopicName>camera_info</cameraInfoTopicName-->
-            <depthImageTopicName>depth_raw</depthImageTopicName>
-            <depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName>
-            <pointCloudTopicName>depth</pointCloudTopicName>
+            <imageTopicName>depth_image_raw</imageTopicName>
+            <cameraInfoTopicName>depth_image_info</cameraInfoTopicName>
+            <!--depthImageTopicName>depth_raw</depthImageTopicName-->
+            <!--depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName-->
+            <!--pointCloudTopicName>depth</pointCloudTopicName-->
             <frameName>${prefix}camera_depth_frame</frameName>
             <!--frame_name>camera_link</frame_name>
                 <always_on>true</always_on>
@@ -470,7 +470,7 @@
     <gazebo reference="imu_link">
       <gravity>true</gravity>
       <sensor name="imu_sensor" type="imu">
-        <pose>0.0 0.0 0.0   0.0 -1.5708 0.0</pose>
+        <pose>0.0 0.0 0.0   1.5708 -1.5708 0.0</pose>
         <visualize>false</visualize>
         <update_rate>8</update_rate>
         <always_on>1</always_on>

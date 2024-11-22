@@ -52,6 +52,7 @@ class ExampleInitializeGazeboRobot(object):
 
   def home_the_robot(self):
     # The Home Action is used to home the robot. It cannot be deleted and is always ID #2:
+    rospy.loginfo("**************home_the_robot")
     self.last_action_notif_type = None
     req = ReadActionRequest()
     req.input.identifier = self.HOME_ACTION_IDENTIFIER
@@ -66,7 +67,7 @@ class ExampleInitializeGazeboRobot(object):
       # What we just read is the input of the ExecuteAction service
       req = ExecuteActionRequest()
       req.input = res.output
-      rospy.loginfo("Sending the robot home...")
+      rospy.loginfo("************** Sending the robot home...")
       try:
         self.execute_action(req)
       except rospy.ServiceException:
@@ -84,11 +85,11 @@ def main():
         pass
 
     # Unpause the physics
-    rospy.loginfo("Unpausing Gazebo...")
+    rospy.loginfo("**** Unpausing Gazebo...")
     rospy.wait_for_service('/gazebo/unpause_physics')
     unpause_gazebo = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
     resp = unpause_gazebo()
-    rospy.loginfo("Unpaused Gazebo.")
+    rospy.loginfo("**** Unpaused Gazebo.")
 
     example = ExampleInitializeGazeboRobot()
     success = example.is_init_success
@@ -102,9 +103,9 @@ def main():
   # For testing purposes
   rospy.set_param("is_initialized", success)
   if not success:
-    rospy.logerr("The Gazebo initialization encountered an error.")
+    rospy.loginfo("***** The Gazebo initialization encountered an error.")
   else:
-    rospy.loginfo("The Gazebo initialization executed without fail.")
+    rospy.loginfo("***** The Gazebo initialization executed without fail.")
 
 if __name__ == '__main__':
   rospy.init_node('init_robot')

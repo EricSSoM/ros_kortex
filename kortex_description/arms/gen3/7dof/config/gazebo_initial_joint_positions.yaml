@@ -1,4 +1,4 @@
-initial_joint_positions: "-J $(arg prefix)joint_1 1.57
+initial_joint_positions: "-J $(arg prefix)joint_1 0.0
                         -J $(arg prefix)joint_2 -0.35
                         -J $(arg prefix)joint_3 3.14
                         -J $(arg prefix)joint_4 -2.00
