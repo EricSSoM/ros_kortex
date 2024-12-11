@@ -364,8 +364,8 @@
           <!--image_topic_name>image_raw</image_topic_name>
           <camera_info_topic>camera_info</camera_info_topic-->
           <image>
-            <width>1280</width>
-            <height>720</height>
+            <width>640</width>
+            <height>480</height>
             <format>RGB_INT8</format>
           </image>
           <clip>
@@ -409,7 +409,7 @@
 
     <gazebo reference="${prefix}camera_depth_frame">
       <sensor name="camera_depth" type="depth">
-        <pose>0.0 0.0 0.0   0.0 -1.5708 0.0</pose>
+        <pose>0.0 -0.027 0.0   0.0 -1.5708 0.0</pose>
         <visualize>false</visualize>
         <update_rate>4</update_rate>
         <!--always_on>1</always_on-->
@@ -418,13 +418,13 @@
           <!--pose>-0.25 0.0 0.0 0 0 0</pose-->
           <!--horizontal_fov>1.21126</horizontal_fov-->
           <!--horizontal_fov>1.0472</horizontal_fov-->
-          <horizontal_fov>1.129</horizontal_fov>
+          <horizontal_fov>1.0472</horizontal_fov>
           <!--image_topic_name>image_raw</image_topic_name>
           <camera_info_topic>camera_info</camera_info_topic-->
           <image>
-            <width>424</width>
-            <height>240</height>
-            <!--format>RGB_INT8</format-->
+            <width>640</width>
+            <height>480</height>
+            <format>BGR_INT8</format>
           </image>
           <clip>
             <near>0.001</near>
@@ -446,10 +446,12 @@
             <cameraName>realsense/camera_depth</cameraName>
             <imageTopicName>depth_image_raw</imageTopicName>
             <cameraInfoTopicName>depth_image_info</cameraInfoTopicName>
-            <!--depthImageTopicName>depth_raw</depthImageTopicName-->
-            <!--depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName-->
-            <!--pointCloudTopicName>depth</pointCloudTopicName-->
+            <depthImageTopicName>depth_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName>
+            <pointCloudTopicName>depth_points</pointCloudTopicName>
             <frameName>${prefix}camera_depth_frame</frameName>
+            <min_depth>0.1</min_depth>
+            <max_depth>15.0</max_depth>
             <!--frame_name>camera_link</frame_name>
                 <always_on>true</always_on>
             <update_rate>0.0</update_rate>
