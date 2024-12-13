@@ -353,6 +353,7 @@
         <!--pose>0.075 -0.03 0.0 0 0 4.71</pose-->
         <pose>0.0 0.0 0.0   0.0 -1.5708 0.0</pose>
         <visualize>true</visualize>
+        <alwaysOn>true</alwaysOn>
         <update_rate>4</update_rate>
         <!--always_on>1</always_on-->
         <camera name="camera_rgb">
@@ -410,6 +411,7 @@
     <gazebo reference="${prefix}camera_depth_frame">
       <sensor name="camera_depth" type="depth">
         <pose>0.0 -0.027 0.0   0.0 -1.5708 0.0</pose>
+        <alwaysOn>true</alwaysOn>
         <visualize>false</visualize>
         <update_rate>4</update_rate>
         <!--always_on>1</always_on-->
@@ -427,7 +429,7 @@
             <format>BGR_INT8</format>
           </image>
           <clip>
-            <near>0.001</near>
+            <near>0.01</near>
             <far>25</far>
           </clip>
           <!--lens>
@@ -441,6 +443,7 @@
           </lens-->
         </camera>
         <plugin name="camera_depth_controller" filename="libgazebo_ros_depth_camera.so">
+        <!--plugin name="camera_depth_controller" filename="libgazebo_ros_openni_kinect.so"-->
             <alwaysOn>true</alwaysOn>
             <updateRate>4.0</updateRate>
             <cameraName>realsense/camera_depth</cameraName>
@@ -450,8 +453,10 @@
             <depthImageCameraInfoTopicName>depth_info</depthImageCameraInfoTopicName>
             <pointCloudTopicName>depth_points</pointCloudTopicName>
             <frameName>${prefix}camera_depth_frame</frameName>
-            <min_depth>0.1</min_depth>
-            <max_depth>15.0</max_depth>
+            <pointCloudCutoff>0.01</pointCloudCutoff>
+            <pointCloudCutoffMax>25.0</pointCloudCutoffMax>
+            <min_depth>0.01</min_depth>
+            <max_depth>25.0</max_depth>
             <!--frame_name>camera_link</frame_name>
                 <always_on>true</always_on>
             <update_rate>0.0</update_rate>

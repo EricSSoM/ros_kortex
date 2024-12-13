@@ -121,9 +121,12 @@
         <!--node name="$(arg prefix)$(arg arm)_trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             output="screen" args="$(arg prefix)$(arg arm)_joint_trajectory_controller $(arg prefix)joint_state_controller $(arg prefix)$(arg gripper)_gripper_controller"
             unless="$(eval not arg('gripper'))"/-->
+
         <node name="$(arg prefix)$(arg arm)_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             output="screen" args="$(arg prefix)joint_state_controller $(arg prefix)$(arg gripper)_gripper_controller"
+            launch-prefix="bash -c 'sleep 1; $0 $@'"
             unless="$(eval not arg('gripper'))"/>
+
 
         <!-- Individual position controllers not stopped -->
 

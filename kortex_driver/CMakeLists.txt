@@ -147,6 +147,8 @@ endif()
 add_dependencies(kortex_arm_driver_implementation kortex_driver_generated_files)
 
 # Entry point executable for the driver
+# add_definitions(-g)
+
 add_executable(kortex_arm_driver src/non-generated/main.cpp)
 if(USE_CONAN)
   target_link_libraries(kortex_arm_driver CONAN_PKG::kortex_api_cpp ${catkin_LIBRARIES} gcov kortex_arm_driver_implementation)

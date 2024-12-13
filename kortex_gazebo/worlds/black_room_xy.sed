@@ -140,18 +140,20 @@
 
           <!-- platform on real robot is at 36cm, must add radius of ball, thus 0.42 -->
           <!--model name="sphere_red_1">
-            <pose>-0.6 -0.1 0.41 0 0 0</pose>
+            <pose>-2.0 0.0 0.5 0 0 0</pose>
             <static>true</static>
             <link name="red_link">
               <visual name="red_visual">
                 <geometry>
-	          <sphere> <radius>0.05</radius> </sphere>
+	          <sphere> <radius>0.06</radius> </sphere>
                 </geometry>
                 <material>
                   <script>
-              <name>Gazebo/Red</name>
+                    <name>Gazebo/Red</name>
                   </script>
                 </material>
+                <diffuse>0.3 0.3 0.3</diffuse>
+                <specular>0.3 0.3 0.3</specular>
               </visual>
             </link>
           </model-->
