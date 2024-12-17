@@ -160,18 +160,27 @@
     
           <scene> <grid>0</grid> </scene>
 
-          <xacro:property name="reach" value="${@w}"/>
+          <!--xacro:property name="reach" value="${@w}"/>
           <xacro:property name="r" value="${reach/7.0}"/>
           <xacro:property name="a" value="${r/2.0}"/>    
           <xacro:property name="size" value="${r/1.7321}"/>
           <xacro:property name="size_side" value="${r/3.4642+0.01}"/>
           <xacro:property name="xreach" value="${reach-size/2.0}"/>
           <xacro:property name="yreach" value="${size*1.5}"/>
+          <xacro:property name="offset" value="${0.02}"/-->
+          
+          <xacro:property name="reach" value="${@w}"/>
+          <xacro:property name="r" value="${reach/14.0}"/>
+          <xacro:property name="a" value="${r/2.0}"/>    
+          <xacro:property name="size" value="${r/1.7321}"/>
+          <xacro:property name="size_side" value="${r/3.4642+0.01}"/>
+          <xacro:property name="yreach" value="${size*1.5}"/>
           <xacro:property name="offset" value="${0.02}"/>
+          <xacro:property name="height" value="${0.25*(size_side/2.0+size_side/20.0+0.06)}"/>
 
           <xacro:macro name="hexa" params="hexa_name color_name x y rx ry rz geo">
             <model name='${hexa_name}'>
-              <pose> ${x+offset} ${y} ${size_side/2.0+size_side/20.0+0.06}  ${rx} ${ry} ${rz} </pose>
+              <pose> ${x+offset} ${y} ${height}  ${rx} ${ry} ${rz} </pose>
               <static>1</static>
               <link name="${hexa_name}">
                 <inertial> <mass> 1.0 </mass> <inertia> <ixx>1000.0</ixx> <ixy>0.0</ixy> <ixz>0.0</ixz> <iyy>1000.0</iyy><iyz>0.0</iyz> <izz>1000.0</izz> </inertia> </inertial>
@@ -194,7 +203,7 @@
                 </visual>
                 <xacro:if value="${geo == 'box2'}">
                   <visual name="${hexa_name}_box2">
-                    <pose> ${x+offset} ${y} ${size_side/2.0+size_side/20.0+0.06}  ${rx} ${ry+0.7854} ${rz} </pose>
+                    <pose> ${x+offset} ${y} ${height}  ${rx} ${ry+0.7854} ${rz} </pose>
                     <geometry> <box> <size> ${size_side/1.5} 0.001 ${size_side/1.5} </size> </box> </geometry>
                     <diffuse>0.3 0.3 0.3</diffuse>
                     <specular>0.3 0.3 0.3</specular>
@@ -202,7 +211,7 @@
                 </xacro:if>
                 <xacro:if value="${geo == 'star'}">
                   <visual name="${hexa_name}_star">
-                    <pose> ${x+offset} ${y} ${size_side/2.0+size_side/20.0+0.06}  1.5708 0.0 ${rz} </pose>
+                    <pose> ${x+offset} ${y} ${height}  1.5708 0.0 ${rz} </pose>
                     <geometry> <cylinder> <radius> ${size_side/2.6} </radius> <length> 0.001 </length> </cylinder> </geometry>
                     <diffuse>0.3 0.3 0.3</diffuse>
                     <specular>0.3 0.3 0.3</specular>
@@ -220,7 +229,8 @@
                 <visual name="${hexa_name}">
                   <pose> ${x+offset} ${y} ${size/2+size/20+0.02}  0 0 ${rz} </pose>
                   <geometry> <box> <size> ${size-0.001} ${size-0.001} ${2.0*size} </size> </box> </geometry>
-                  <material> <script> <name>Gazebo/Black</name> </script> </material>
+                  <!--material> <script> <name>Gazebo/Black</name> </script> </material-->
+                  <material> <script> <name>Gazebo/White</name> </script> </material>
                   <diffuse>0.3 0.3 0.3</diffuse>
                   <specular>0.3 0.3 0.3</specular>
                 </visual>
@@ -245,10 +255,12 @@
           </xacro:macro>
           <!-- Put hexa on base (if hides target) -->
           <!--xacro:hexagon h_name="h0" x="${-size-0.015}" y= "0.0" col4="Purple" col5="Purple" col6="Purple" col1="Purple" col2="Purple" col3="Purple" rx="1.5708" ry="0" geo="circle"/-->
-          <xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.19 * r}"/>
+          <!--xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.19 * r}"/-->
+          <!--xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.193}"/-->  <!-- position of user target arm: (xhexa, yhexa) -->
+          <xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.25}"/>  <!-- position of user target arm: (xhexa, yhexa) -->
           <xacro:property name="yhexa" value="${yreach * (@y) / 10.0}"/>
 
-          <xacro:hexagon h_name="hh1"  x="${xhexa+a*7.0}" y="${yhexa}"            col1="Purple"                     rx="1.5708"   geo="circle"/>
+          <!--xacro:hexagon h_name="hh1"  x="${xhexa+a*7.0}" y="${yhexa}"            col1="Purple"                     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh2"  x="${xhexa+a*6.0}" y="${yhexa-yreach}"     col1="Turquoise" col2="Blue"      rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh3"  x="${xhexa+a*5.0}" y="${yhexa-yreach*2.0}" col1="Yellow"    col2="Green"     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh4"  x="${xhexa+a*4.0}" y="${yhexa-yreach*3.0}" col1="Orange"    col2="Red"       rx="1.5708"   geo="circle"/>
@@ -259,8 +271,16 @@
           <xacro:hexagon h_name="hh9"  x="${xhexa-a*5.0}" y="${yhexa-yreach*4.0}" col3="Purple"                     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh10" x="${xhexa-a*6.0}" y="${yhexa-yreach*3.0}" col3="Turquoise" col4="Blue"      rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh11" x="${xhexa-a*7.0}" y="${yhexa-yreach*2.0}" col3="Yellow"    col4="Green"     rx="1.5708"   geo="circle"/>
-          <xacro:hexagon h_name="hh12" x="${xhexa-a*8.0}" y="${yhexa-yreach}"     col3="Orange"    col4="Red"       rx="1.5708"   geo="circle"/>
-          <xacro:hexagon h_name="hh13" x="${xhexa-a*9.0}" y="${yhexa}"            col4="Purple"                     rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hh12" x="${xhexa-a*8.0}" y="${yhexa-yreach}"     col3="Orange"    col4="Red"       rx="1.5708"   geo="circle"/-->
+          
+          <xacro:hexagon h_name="hh11" x="${xhexa-a*22.0}" y="${yhexa-yreach*2.0}" col3="Yellow"                     rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hh12" x="${xhexa-a*23.0}" y="${yhexa-yreach*1.0}" col4="Green"    col3="Red"        rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hh13" x="${xhexa-a*24.0}" y="${yhexa}"            col4="Purple"                     rx="1.5708"   geo="circle"/>
+
+          <xacro:property name="height" value="${1.0*(size_side/2.0+size_side/20.0+0.06)}"/>
+          <xacro:hexagon h_name="hhfar" x="${0.193-a*36.0}" y="0.0"                col4="Blue"                       rx="1.5708"   geo="circle"/>
+
+          <!--xacro:hexagon h_name="hh13" x="${xhexa-a*9.0}" y="${yhexa}"            col4="Purple"                     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh14" x="${xhexa-a*8.0}" y="${yhexa+yreach}"     col4="Turquoise" col5="Blue"      rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh15" x="${xhexa-a*7.0}" y="${yhexa+yreach*2.0}" col4="Yellow"    col5="Green"     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh16" x="${xhexa-a*6.0}" y="${yhexa+yreach*3.0}" col4="Orange"    col5="Red"       rx="1.5708"   geo="circle"/>
@@ -271,6 +291,6 @@
           <xacro:hexagon h_name="hh21" x="${xhexa+a*3.0}" y="${yhexa+yreach*4.0}" col6="Purple"                     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh22" x="${xhexa+a*4.0}" y="${yhexa+yreach*3.0}" col6="Turquoise" col1="Blue"      rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh23" x="${xhexa+a*5.0}" y="${yhexa+yreach*2.0}" col6="Yellow"    col1="Green"     rx="1.5708"   geo="circle"/>
-          <xacro:hexagon h_name="hh24" x="${xhexa+a*6.0}" y="${yhexa+yreach*1.0}" col6="Orange"    col1="Red"       rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hh24" x="${xhexa+a*6.0}" y="${yhexa+yreach*1.0}" col6="Orange"    col1="Red"       rx="1.5708"   geo="circle"/-->
 
         </world>
