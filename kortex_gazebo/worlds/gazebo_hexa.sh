@@ -4,9 +4,9 @@
 # x positive axis follows red line, y positive axis follow green line
 #
 #        (10, 0)
-# (-10, 10)    (10, 10)
+# (-5, 10)    (5, 10)
 #         (0 ,0)
-# (-10,-10)    (10,-10)
+# (-5,-10)    (5,-10)
 #        (-10,0)
 #
 
@@ -30,12 +30,12 @@ while [ $ok -eq 1 ]; do
         then
             if [ $xdiff -gt 0 ]
             then
-                xhexa=$((xhexa + 10))
+                xhexa=$((xhexa + 5))
                 yhexa=$((yhexa + 10))
                 xpos=$((xpos + 1))
                 ypos=$((ypos + 1))
             else
-                xhexa=$((xhexa - 10))
+                xhexa=$((xhexa - 5))
                 yhexa=$((yhexa - 10))
                 xpos=$((xpos - 1))
                 ypos=$((ypos - 1))
@@ -54,11 +54,11 @@ while [ $ok -eq 1 ]; do
             else
                 if [ $ydiff -gt 0 ]
                 then
-                    xhexa=$((xhexa - 10))
+                    xhexa=$((xhexa - 5))
                     yhexa=$((yhexa + 10))
                     ypos=$((ypos + 1))
                 else
-                    xhexa=$((xhexa + 10))
+                    xhexa=$((xhexa + 5))
                     yhexa=$((yhexa - 10))
                     ypos=$((ypos - 1))
                 fi

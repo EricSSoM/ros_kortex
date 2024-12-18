@@ -47,7 +47,7 @@
                 <material>
                   <script>
                     <uri>file://media/materials/scripts/gazebo.material</uri>
-                    <name>Gazebo/Black</name>
+                    <name>Gazebo/White</name>
                   </script>
                 </material>
               </visual>
@@ -65,7 +65,7 @@
                 </geometry>
                 <material>
                   <script>
-                    <name>Gazebo/Black</name>
+                    <name>Gazebo/White</name>
                   </script>
                 </material>
               </visual>
@@ -86,7 +86,7 @@
                 </geometry>
                 <material>
                   <script>
-                    <name>Gazebo/Black</name>
+                    <name>Gazebo/White</name>
                   </script>
                 </material>
               </visual>
@@ -107,7 +107,7 @@
                 </geometry>
                 <material>
                   <script>
-                    <name>Gazebo/Black</name>
+                    <name>Gazebo/White</name>
                   </script>
                 </material>
               </visual>
@@ -128,7 +128,7 @@
                 </geometry>
                 <material>
                   <script>
-                    <name>Gazebo/Black</name>
+                    <name>Gazebo/White</name>
                   </script>
                 </material>
               </visual>
@@ -178,6 +178,22 @@
           <xacro:property name="offset" value="${0.02}"/>
           <xacro:property name="height" value="${0.25*(size_side/2.0+size_side/20.0+0.06)}"/>
 
+          <xacro:macro name="sphere" params="name color x y">
+            <model name='${name}'>
+              <pose> ${x+offset} ${y} ${height}  0.0 0.0 0.0 </pose>
+              <static>1</static>
+              <link name="${name}">
+                <inertial> <mass> 1.0 </mass> <inertia> <ixx>1000.0</ixx> <ixy>0.0</ixy> <ixz>0.0</ixz> <iyy>1000.0</iyy><iyz>0.0</iyz> <izz>1000.0</izz> </inertia> </inertial>
+                <visual name="${name}">
+                  <geometry> <sphere> <radius> ${size_side/1.5} </radius> </sphere> </geometry>
+                  <material> <script> <name>Gazebo/${color}</name> </script> </material>
+                  <diffuse>0.3 0.3 0.3</diffuse>
+                  <specular>0.3 0.3 0.3</specular>
+                </visual>
+              </link>
+            </model>
+          </xacro:macro>
+            
           <xacro:macro name="hexa" params="hexa_name color_name x y rx ry rz geo">
             <model name='${hexa_name}'>
               <pose> ${x+offset} ${y} ${height}  ${rx} ${ry} ${rz} </pose>
@@ -192,7 +208,7 @@
                     <geometry> <box> <size> ${size_side/1.5} 0.001 ${size_side/1.5} </size> </box> </geometry>
                   </xacro:if>
                   <xacro:if value="${geo == 'circle'}">
-                    <geometry> <cylinder> <radius> ${size_side/3} </radius> <length> 0.001 </length> </cylinder> </geometry>
+                    <geometry> <cylinder> <radius> ${size_side/1.75} </radius> <length> 0.001 </length> </cylinder> </geometry>
                   </xacro:if>
                   <xacro:if value="${geo == 'star'}">
                     <geometry> <box> <size> ${size_side/1.5} 0.001 ${size_side/1.5} </size> </box> </geometry>
@@ -229,8 +245,8 @@
                 <visual name="${hexa_name}">
                   <pose> ${x+offset} ${y} ${size/2+size/20+0.02}  0 0 ${rz} </pose>
                   <geometry> <box> <size> ${size-0.001} ${size-0.001} ${2.0*size} </size> </box> </geometry>
-                  <!--material> <script> <name>Gazebo/Black</name> </script> </material-->
-                  <material> <script> <name>Gazebo/White</name> </script> </material>
+                  <!--material> <script> <name>Gazebo/White</name> </script> </material-->
+                  <material> <script> <name>Gazebo/Black</name> </script> </material>
                   <diffuse>0.3 0.3 0.3</diffuse>
                   <specular>0.3 0.3 0.3</specular>
                 </visual>
@@ -257,7 +273,7 @@
           <!--xacro:hexagon h_name="h0" x="${-size-0.015}" y= "0.0" col4="Purple" col5="Purple" col6="Purple" col1="Purple" col2="Purple" col3="Purple" rx="1.5708" ry="0" geo="circle"/-->
           <!--xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.19 * r}"/-->
           <!--xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.193}"/-->  <!-- position of user target arm: (xhexa, yhexa) -->
-          <xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.25}"/>  <!-- position of user target arm: (xhexa, yhexa) -->
+          <xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.3}"/>  <!-- position of user target arm: (xhexa, yhexa) -->
           <xacro:property name="yhexa" value="${yreach * (@y) / 10.0}"/>
 
           <!--xacro:hexagon h_name="hh1"  x="${xhexa+a*7.0}" y="${yhexa}"            col1="Purple"                     rx="1.5708"   geo="circle"/>
@@ -273,13 +289,16 @@
           <xacro:hexagon h_name="hh11" x="${xhexa-a*7.0}" y="${yhexa-yreach*2.0}" col3="Yellow"    col4="Green"     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh12" x="${xhexa-a*8.0}" y="${yhexa-yreach}"     col3="Orange"    col4="Red"       rx="1.5708"   geo="circle"/-->
           
-          <xacro:hexagon h_name="hh11" x="${xhexa-a*22.0}" y="${yhexa-yreach*2.0}" col3="Yellow"                     rx="1.5708"   geo="circle"/>
+          <!--xacro:hexagon h_name="hh11" x="${xhexa-a*22.0}" y="${yhexa-yreach*2.0}" col3="Yellow"                     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh12" x="${xhexa-a*23.0}" y="${yhexa-yreach*1.0}" col4="Green"    col3="Red"        rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh13" x="${xhexa-a*24.0}" y="${yhexa}"            col4="Purple"                     rx="1.5708"   geo="circle"/>
-
           <xacro:property name="height" value="${1.0*(size_side/2.0+size_side/20.0+0.06)}"/>
-          <xacro:hexagon h_name="hhfar" x="${0.193-a*36.0}" y="0.0"                col4="Blue"                       rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hhfar" x="${0.193-a*36.0}" y="0.0"                col4="Blue"                       rx="1.5708"   geo="circle"/-->
 
+          <xacro:sphere name="ball_purple" x="${xhexa-a*24.0}" y="${yhexa}"            color="Purple"/>
+          <xacro:sphere name="ball_red"    x="${xhexa-a*23.0}" y="${yhexa-yreach}"     color="Red"/>
+          <xacro:sphere name="ball_green"  x="${xhexa-a*22.0}" y="${yhexa-yreach*2.0}" color="Green"/>
+          
           <!--xacro:hexagon h_name="hh13" x="${xhexa-a*9.0}" y="${yhexa}"            col4="Purple"                     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh14" x="${xhexa-a*8.0}" y="${yhexa+yreach}"     col4="Turquoise" col5="Blue"      rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh15" x="${xhexa-a*7.0}" y="${yhexa+yreach*2.0}" col4="Yellow"    col5="Green"     rx="1.5708"   geo="circle"/>
