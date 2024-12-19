@@ -30,8 +30,8 @@
                   </contact>
                   <friction>
                     <ode>
-                      <mu>100</mu>
-                      <mu2>50</mu2>
+                      <mu>infinity</mu>
+                      <mu2>infinity</mu2>
                     </ode>
                   </friction>
                 </surface>
@@ -273,7 +273,7 @@
           <!--xacro:hexagon h_name="h0" x="${-size-0.015}" y= "0.0" col4="Purple" col5="Purple" col6="Purple" col1="Purple" col2="Purple" col3="Purple" rx="1.5708" ry="0" geo="circle"/-->
           <!--xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.19 * r}"/-->
           <!--xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.193}"/-->  <!-- position of user target arm: (xhexa, yhexa) -->
-          <xacro:property name="xhexa" value="${r * (@x) * 2.0 / 10.0 + 0.3}"/>  <!-- position of user target arm: (xhexa, yhexa) -->
+          <xacro:property name="xhexa" value="${r * (@x) / 10.0 + 0.3}"/>  <!-- position of user target arm: (xhexa, yhexa) -->
           <xacro:property name="yhexa" value="${yreach * (@y) / 10.0}"/>
 
           <!--xacro:hexagon h_name="hh1"  x="${xhexa+a*7.0}" y="${yhexa}"            col1="Purple"                     rx="1.5708"   geo="circle"/>
@@ -288,12 +288,14 @@
           <xacro:hexagon h_name="hh10" x="${xhexa-a*6.0}" y="${yhexa-yreach*3.0}" col3="Turquoise" col4="Blue"      rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh11" x="${xhexa-a*7.0}" y="${yhexa-yreach*2.0}" col3="Yellow"    col4="Green"     rx="1.5708"   geo="circle"/>
           <xacro:hexagon h_name="hh12" x="${xhexa-a*8.0}" y="${yhexa-yreach}"     col3="Orange"    col4="Red"       rx="1.5708"   geo="circle"/-->
-          
-          <!--xacro:hexagon h_name="hh11" x="${xhexa-a*22.0}" y="${yhexa-yreach*2.0}" col3="Yellow"                     rx="1.5708"   geo="circle"/>
-          <xacro:hexagon h_name="hh12" x="${xhexa-a*23.0}" y="${yhexa-yreach*1.0}" col4="Green"    col3="Red"        rx="1.5708"   geo="circle"/>
-          <xacro:hexagon h_name="hh13" x="${xhexa-a*24.0}" y="${yhexa}"            col4="Purple"                     rx="1.5708"   geo="circle"/>
+
+          <!--xacro:property name="xh" value="0.3"/>
+          <xacro:hexagon h_name="hh11" x="${xh-a*22.0}" y="${yreach*2.0}" col3="Yellow"                     rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hh12" x="${xh-a*23.0}" y="${yreach*1.0}" col4="Green"    col3="Red"        rx="1.5708"   geo="circle"/>
+          <xacro:hexagon h_name="hh13" x="${xh-a*24.0}" y="0.0"           col4="Purple"                     rx="1.5708"   geo="circle"/>
           <xacro:property name="height" value="${1.0*(size_side/2.0+size_side/20.0+0.06)}"/>
-          <xacro:hexagon h_name="hhfar" x="${0.193-a*36.0}" y="0.0"                col4="Blue"                       rx="1.5708"   geo="circle"/-->
+          <xacro:property name="xh" value="${-r * 10.0 / 10.0 + 0.3}"/>
+          <xacro:hexagon h_name="hhfar" x="${xh-a*24.0}" y="0.0"          col4="Blue"                       rx="1.5708"   geo="circle"/-->
 
           <xacro:sphere name="ball_purple" x="${xhexa-a*24.0}" y="${yhexa}"            color="Purple"/>
           <xacro:sphere name="ball_red"    x="${xhexa-a*23.0}" y="${yhexa-yreach}"     color="Red"/>

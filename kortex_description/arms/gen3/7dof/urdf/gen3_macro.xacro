@@ -9,7 +9,7 @@
       <link name="${prefix}base_link">
         <inertial>
           <origin xyz="-0.000648 -0.000166 0.084487" rpy="0 0 0" />
-          <mass value="1.697" />
+          <mass value="0.1697" />
           <inertia ixx="0.004622" ixy="9E-06" ixz="6E-05" iyy="0.004495" iyz="9E-06" izz="0.002079" />
         </inertial>
         <visual>
@@ -32,7 +32,7 @@
       <inertial>
         <origin xyz="-2.3E-05 -0.010364 -0.07336" rpy="0 0 0" />
         <!--origin xyz="-2.3E-05 -0.010364 -0.1" rpy="0 0 0" /-->
-        <mass value="1.3773" />
+        <mass value="0.013773" />
         <inertia ixx="0.00457" ixy="1E-06" ixz="2E-06" iyy="0.004831" iyz="0.000448" izz="0.001409" />
       </inertial>
       <visual>
@@ -68,7 +68,7 @@
     <link name="${prefix}half_arm_1_link">
       <inertial>
         <origin xyz="-4.4E-05 -0.09958 -0.013278" rpy="0 0 0" />
-        <mass value="1.1636" />
+        <mass value="0.011636" />
         <inertia ixx="0.011088" ixy="5E-06" ixz="0" iyy="0.001072" iyz="-0.000691" izz="0.011255" />
       </inertial>
       <visual>
@@ -102,7 +102,7 @@
     <link name="${prefix}half_arm_2_link">
       <inertial>
         <origin xyz="-4.4E-05 -0.006641 -0.117892" rpy="0 0 0" />
-        <mass value="1.1636" />
+        <mass value="0.011636" />
         <inertia ixx="0.010932" ixy="0" ixz="-7E-06" iyy="0.011127" iyz="0.000606" izz="0.001043" />
       </inertial>
       <visual>
@@ -138,7 +138,7 @@
     <link name="${prefix}forearm_link">
       <inertial>
         <origin xyz="-1.8E-05 -0.075478 -0.015006" rpy="0 0 0" />
-        <mass value="0.9302" />
+        <mass value="0.09302" />
         <inertia ixx="0.008147" ixy="-1E-06" ixz="0" iyy="0.000631" iyz="-0.0005" izz="0.008316" />
       </inertial>
       <visual>
@@ -172,7 +172,7 @@
     <link name="${prefix}spherical_wrist_1_link">
       <inertial>
         <origin xyz="1E-06 -0.009432 -0.063883" rpy="0 0 0" />
-        <mass value="0.6781" />
+        <mass value="0.06781" />
         <inertia ixx="0.001596" ixy="0" ixz="0" iyy="0.001607" iyz="0.000256" izz="0.000399" />
       </inertial>
       <visual>
@@ -208,7 +208,7 @@
     <link name="${prefix}spherical_wrist_2_link">
       <inertial>
         <origin xyz="1E-06 -0.045483 -0.00965" rpy="0 0 0" />
-        <mass value="0.6781" />
+        <mass value="0.06781" />
         <inertia ixx="0.001641" ixy="0" ixz="0" iyy="0.00041" iyz="-0.000278" izz="0.001641" />
       </inertial>
       <visual>
@@ -243,7 +243,7 @@
     <link name="${prefix}bracelet_link">
       <inertial>
         <origin xyz="0.000281 0.011402 -0.029798" rpy="0 0 0" />
-        <mass value="0.5" />
+        <mass value="0.05" />
         <inertia ixx="0.000587" ixy="3E-06" ixz="3E-06" iyy="0.000369" iyz="-0.000118" izz="0.000609" />
       </inertial>
       <visual>
@@ -267,7 +267,7 @@
     <link name="${prefix}bracelet_link">
       <inertial>
         <origin xyz="-9.3E-05 0.000132 -0.022905" rpy="0 0 0" />
-        <mass value="0.364" />
+        <mass value="0.0364" />
         <inertia ixx="0.000214" ixy="0" ixz="1E-06" iyy="0.000223" iyz="-2E-06" izz="0.00024" />
       </inertial>
       <visual>
