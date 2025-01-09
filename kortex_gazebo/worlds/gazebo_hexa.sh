@@ -16,6 +16,8 @@ xhexa=0
 yhexa=0
 xdest=$1
 ydest=$2
+zdest=$3
+tdest=$4
 ok=1
 while [ $ok -eq 1 ]; do
     xdiff=$((xdest - xpos))
@@ -66,4 +68,4 @@ while [ $ok -eq 1 ]; do
         fi
     fi
 done
-echo "$xhexa $yhexa"
+echo "$xhexa $yhexa $zdest $tdest"

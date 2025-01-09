@@ -7,3 +7,4 @@ rostopic pub -1 /my_gen3/joint_5_position_controller/command std_msgs/Float64 "d
 rostopic pub -1 /my_gen3/joint_6_position_controller/command std_msgs/Float64 "data: $5" &
 rostopic pub -1 /my_gen3/joint_7_position_controller/command std_msgs/Float64 "data: $6" &
 sleep 5; rostopic pub -1 /my_gen3/joint_2_position_controller/command std_msgs/Float64 "data: $2" &
+sleep 4

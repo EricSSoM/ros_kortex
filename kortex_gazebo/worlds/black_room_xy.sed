@@ -175,12 +175,14 @@
           <xacro:property name="size" value="${r/1.7321}"/>
           <xacro:property name="size_side" value="${r/3.4642+0.01}"/>
           <xacro:property name="yreach" value="${size*1.5}"/>
+          <xacro:property name="zhexa" value="${@z*r}"/>
           <xacro:property name="offset" value="${0.02}"/>
           <xacro:property name="height" value="${0.25*(size_side/2.0+size_side/20.0+0.06)}"/>
 
           <xacro:macro name="sphere" params="name color x y">
             <model name='${name}'>
-              <pose> ${x+size_side/1.5+a} ${y} ${height}  0.0 0.0 0.0 </pose>
+              <pose> ${x+size_side/1.5+a} ${y} ${height+zhexa}  0.0 0.0 0.0 </pose>
+              <gravity>0</gravity>
               <static>1</static>
               <link name="${name}">
                 <inertial> <mass> 1.0 </mass> <inertia> <ixx>1000.0</ixx> <ixy>0.0</ixy> <ixz>0.0</ixz> <iyy>1000.0</iyy><iyz>0.0</iyz> <izz>1000.0</izz> </inertia> </inertial>
