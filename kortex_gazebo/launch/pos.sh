@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+echo "$1  $2  $3  $4  $5  $6"
 rostopic pub -1 /my_gen3/joint_1_position_controller/command std_msgs/Float64 "data: $1" &
 rostopic pub -1 /my_gen3/joint_2_position_controller/command std_msgs/Float64 "data: 0.0" &
 rostopic pub -1 /my_gen3/joint_3_position_controller/command std_msgs/Float64 "data: 3.14159" &

@@ -9,7 +9,7 @@
     <arg name="start_rviz" default="false"/>
     
     <!-- Initial position in Gazebo -->
-    <arg name="x0" default="0.375"/>
+    <arg name="x0" default="0.325"/>
     <arg name="y0" default="0"/>
     <arg name="z0" default="0"/>
     <arg name="yaw" default="3.14159"/>
