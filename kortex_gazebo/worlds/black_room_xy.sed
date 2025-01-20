@@ -264,7 +264,7 @@
           </xacro:macro>
           <!-- Put hexa on base (if hides target) -->
           <!--xacro:hexagon h_name="h0" x="${-size-0.015}" y= "0.0" col4="Purple" col5="Purple" col6="Purple" col1="Purple" col2="Purple" col3="Purple" rx="1.5708" ry="0" geo="circle"/-->
-          <xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.32}"/>    <!-- position of user wrist: (x, y) -->
+          <xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.33}"/>    <!-- position of user wrist: (x, y) -->
           <xacro:property name="yhexa" value="${yreach * (@y) / 10.0}"/>
 
           <!--xacro:hexagon h_name="hh1"  x="${xhexa+a*7.0}" y="${yhexa}"            col1="Purple"                     rx="1.5708"   geo="circle"/>
