@@ -300,9 +300,9 @@
             <xacro:sphere name="ball_green"  x="${xhexa-a*2.0}" y="${yhexa-yreach*2.0}" z="${zhexa}"  color="Green"/>
           </xacro:if>
           <xacro:if value="${(@t) == 6}">    Purple is at postion of arm + (-2 0) but lower, green directly underneath
-            <xacro:sphere name="ball_purple" x="${xhexa-a*4.0}" y="${yhexa}"            z="${zhexa-r}"   color="Purple"/>
-            <xacro:sphere name="ball_red"    x="${xhexa-a*2.0}" y="${yhexa}"            z="${zhexa-3*a}" color="Red"/>
-            <xacro:sphere name="ball_green"  x="${xhexa}"       y="${yhexa}"            z="${zhexa-2*r}" color="Green"/>
+            <xacro:sphere name="ball_purple" x="${xhexa-a*2.0}" y="${yhexa}"            z="${zhexa-r}"   color="Purple"/>
+            <xacro:sphere name="ball_red"    x="${xhexa+a}"     y="${yhexa}"            z="${zhexa-3*a}" color="Red"/>
+            <xacro:sphere name="ball_green"  x="${xhexa+a*4.0}" y="${yhexa}"            z="${zhexa-2*r}" color="Green"/>
           </xacro:if>
           <xacro:if value="${(@t) == 1}">    Purple is at postion of arm + (-2 -2)
             <xacro:sphere name="ball_purple" x="${xhexa-a*2.0}" y="${yhexa-yreach*2.0}" z="${zhexa}"  color="Purple"/>
