@@ -172,7 +172,7 @@
 
           <xacro:macro name="sphere" params="name color x y z">
             <model name='${name}'>
-              <pose> ${x+size_side/1.5+a} ${y} ${z}  0.0 0.0 0.0 </pose>
+              <pose> ${x} ${y} ${z}  0.0 0.0 0.0 </pose>
               <gravity>0</gravity>
               <static>1</static>
               <link name="${name}">
@@ -264,7 +264,7 @@
           </xacro:macro>
           <!-- Put hexa on base (if hides target) -->
           <!--xacro:hexagon h_name="h0" x="${-size-0.015}" y= "0.0" col4="Purple" col5="Purple" col6="Purple" col1="Purple" col2="Purple" col3="Purple" rx="1.5708" ry="0" geo="circle"/-->
-          <xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.33}"/>    <!-- position of user wrist: (x, y) -->
+          <xacro:property name="xhexa" value="${r * (@x) / 10.0 - 0.31}"/>    <!-- position of user wrist: (x, y) -->
           <xacro:property name="yhexa" value="${yreach * (@y) / 10.0}"/>
 
           <!--xacro:hexagon h_name="hh1"  x="${xhexa+a*7.0}" y="${yhexa}"            col1="Purple"                     rx="1.5708"   geo="circle"/>
@@ -288,7 +288,7 @@
           <xacro:property name="xh" value="${-r * 10.0 / 10.0 + 0.3}"/>
           <xacro:hexagon h_name="hhfar" x="${xh-a*24.0}" y="0.0"          col4="Blue"                       rx="1.5708"   geo="circle"/-->
 
-          <!--xacro:property name="x0" value="${0.3 - r * 10.0}"/>
+v          <!--xacro:property name="x0" value="${0.3 - r * 10.0}"/>
           <xacro:hexagon h_name="h_0_0"  x="${x0}"   y="${0.0}"     col1="Orange" col2="Orange" col3="Orange" col4="Orange" col5="Orange" col6="Orange"/>
           <xacro:hexagon h_name="h-1_0"  x="${x0-r}" y="${0.0}"     col1="Yellow" col2="Yellow" col3="Yellow" col4="Yellow" col5="Yellow" col6="Yellow"/>
           <xacro:hexagon h_name="h-1-1"  x="${x0-a}" y="${-yreach}" col1="Blue" col2="Blue" col3="Blue" col4="Blue" col5="Blue" col6="Blue"/>
