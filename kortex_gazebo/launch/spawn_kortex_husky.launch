@@ -44,7 +44,7 @@
             <arg name="paused" value="$(arg paused)"/>
     </include-->
 
-    <arg name="world_name" default="$(find kortex_gazebo)/worlds/black_room_xy.world"/>
+    <arg name="world_name" default="$(find kortex_gazebo)/worlds/black_room.world"/>
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="world_name" value="$(arg world_name)"/>
