@@ -179,7 +179,8 @@
                 <inertial> <mass> 1.0 </mass> <inertia> <ixx>1000.0</ixx> <ixy>0.0</ixy> <ixz>0.0</ixz> <iyy>1000.0</iyy><iyz>0.0</iyz> <izz>1000.0</izz> </inertia> </inertial>
                 <visual name="${name}">
                   <!--geometry> <sphere> <radius> ${size_side/1.5} </radius> </sphere> </geometry-->
-                  <geometry> <cylinder> <radius> ${size_side/1.75} </radius> <length> 0.001 </length> </cylinder> </geometry>
+                  <!--geometry> <cylinder> <radius> ${size_side/1.75} </radius> <length> 0.001 </length> </cylinder> </geometry-->
+                  <geometry> <cylinder> <radius> 0.021 </radius> <length> 0.001 </length> </cylinder> </geometry>
                   <material> <script> <name>Gazebo/${color}</name> </script> </material>
                   <diffuse>0.3 0.3 0.3</diffuse>
                   <specular>0.3 0.3 0.3</specular>
@@ -188,14 +189,65 @@
             </model>
           </xacro:macro>
 
-          <xacro:property name="xhexa" value="${r * (@x) / 100.0 - 0.31}"/>    <!-- position of user wrist: (x, y) -->
-          <xacro:property name="yhexa" value="${yreach * (@y) / 100.0}"/>
-          
-          <xacro:if value="${(@t) == -1}">    Purple is at postions (-2 0) (-5 -6) (1 6)
-            <xacro:sphere name="ball_left"   x="${-a*3.0 - 0.31}" y="${-0.312}"            z="${zhexa}"  color="Purple"/>
-            <xacro:sphere name="ball_center" x="${-a*3.0 - 0.31}" y="${0.0}"               z="${zhexa}"  color="Purple"/>
-            <xacro:sphere name="ball_right"  x="${-a*3.0 - 0.31}" y="${0.312}"             z="${zhexa}"  color="Purple"/>
+          <xacro:if value="${(@t) == -1}">
+            Purple is at positions (-2 0) (-5 -6) or (1 6)
+            <xacro:if value="${(@x) == 0}">
+              <xacro:if value="${(@y) == 0}">
+                Arm is at position (0 0) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.411}" y="${0.001}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == 312}">
+                Arm is at position (3 6) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.385}" y="${0.32}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == -312}">
+                Arm is at position (-3 -6) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.37}" y="${-0.305}"             z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+            </xacro:if>
+            <xacro:if value="${(@x) == -100}">
+              <xacro:if value="${(@y) == 104}">
+                Arm is at position (0 2) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.363}" y="${-0.05}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == -104}">
+                Arm is at position (-2 -2) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.348}" y="${0.038}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == -208}">
+                Arm is at position (-3 -4) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.355}" y="${-0.357}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == 208}">
+                Arm is at position (1 4) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.350}" y="${0.362}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+            </xacro:if>
+            <xacro:if value="${(@x) == -300}">
+              <xacro:if value="${(@y) == 104}">
+                Arm is at position (-2 2) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.317}" y="${-0.035}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == -104}">
+                Arm is at position (-4 -2) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.32}" y="${0.011}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == -208}">
+                Arm is at position (-5 -4) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.307}" y="${-0.334}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+              <xacro:if value="${(@y) == 208}">
+                Arm is at position (-1 4) X
+                <xacro:sphere name="ball_center" x="${-a*3.0 - 0.313}" y="${0.343}"            z="${zhexa}"  color="Purple"/>
+              </xacro:if>
+            </xacro:if>
+            <!--xacro:sphere name="ball_left"   x="${-a*3.0 - 0.41}" y="${-0.312}"            z="${zhexa}"  color="Red"/-->
+            <!--xacro:sphere name="ball_center" x="${-a*3.0 - 0.411}" y="${0.001}"            z="${zhexa}"  color="Purple"/-->
+            <!--xacro:sphere name="ball_right"  x="${-a*3.0 - 0.371}" y="${0.302}"            z="${zhexa}"  color="Green"/-->
           </xacro:if>
+          <xacro:property name="xoff" value="${0.41}"/>
+          <xacro:property name="xhexa" value="${r * (@x) / 100.0 - xoff}"/>    <!-- position of user wrist: (x, y) -->
+          <xacro:property name="yhexa" value="${yreach * (@y) / 100.0}"/>
           <xacro:if value="${(@t) == 0}">    Purple is at postion of arm + (-2 0)
             <xacro:sphere name="ball_purple" x="${xhexa-a*4.0}" y="${yhexa}"            z="${zhexa}"  color="Purple"/>
             <xacro:sphere name="ball_red"    x="${xhexa-a*3.0}" y="${yhexa-yreach}"     z="${zhexa}"  color="Red"/>
@@ -205,6 +257,31 @@
             <xacro:sphere name="ball_purple" x="${xhexa-a*2.0}"   y="${yhexa}"            z="${zhexa-r}"   color="Purple"/>
             <xacro:sphere name="ball_red"    x="${xhexa+a}"       y="${yhexa}"            z="${zhexa-3*a}" color="Red"/>
             <xacro:sphere name="ball_green"  x="${xhexa+a*4.0}"   y="${yhexa}"            z="${zhexa-2*r}" color="Green"/>
+          </xacro:if>
+          <xacro:if value="${(@t) == 1}">    Purple is at postion of arm + (-2 -2)
+            <xacro:sphere name="ball_purple" x="${xhexa-a*2.0}" y="${yhexa-yreach*2.0}" z="${zhexa}"  color="Purple"/>
+            <xacro:sphere name="ball_red"    x="${xhexa}"       y="${yhexa-yreach*2.0}" z="${zhexa}"  color="Red"/>
+            <xacro:sphere name="ball_green"  x="${xhexa+a*2.0}" y="${yhexa-yreach*2.0}" z="${zhexa}"  color="Green"/>
+          </xacro:if>
+          <xacro:if value="${(@t) == 2}">    Purple is at postion of arm + (0 -2)
+            <xacro:sphere name="ball_purple" x="${xhexa+a*2.0}" y="${yhexa-yreach*2.0}" z="${zhexa}"  color="Purple"/>
+            <xacro:sphere name="ball_red"    x="${xhexa+a*3.0}" y="${yhexa-yreach*1.0}" z="${zhexa}"  color="Red"/>
+            <xacro:sphere name="ball_green"  x="${xhexa+a*4.0}" y="${yhexa}"            z="${zhexa}"  color="Green"/>
+          </xacro:if>
+          <xacro:if value="${(@t) == 3}">    Purple is at postion of arm + (2 0)
+            <xacro:sphere name="ball_purple" x="${xhexa+a*4.0}" y="${yhexa}"            z="${zhexa}"  color="Purple"/>
+            <xacro:sphere name="ball_red"    x="${xhexa+a*3.0}" y="${yhexa+yreach*1.0}" z="${zhexa}"  color="Red"/>
+            <xacro:sphere name="ball_green"  x="${xhexa+a*2.0}" y="${yhexa+yreach*2.0}" z="${zhexa}"  color="Green"/>
+          </xacro:if>
+          <xacro:if value="${(@t) == 4}">    Purple is at postion of arm + (2 2)
+            <xacro:sphere name="ball_purple" x="${xhexa+a*2.0}" y="${yhexa+yreach*2.0}" z="${zhexa}"  color="Purple"/>
+            <xacro:sphere name="ball_red"    x="${xhexa}"       y="${yhexa+yreach*2.0}" z="${zhexa}"  color="Red"/>
+            <xacro:sphere name="ball_green"  x="${xhexa-a*2.0}" y="${yhexa+yreach*2.0}" z="${zhexa}"  color="Green"/>
+          </xacro:if>
+          <xacro:if value="${(@t) == 5}">    Purple is at postion of arm + (0 2)
+            <xacro:sphere name="ball_purple" x="${xhexa-a*2.0}" y="${yhexa+yreach*2.0}" z="${zhexa}"  color="Purple"/>
+            <xacro:sphere name="ball_red"    x="${xhexa-a*3.0}" y="${yhexa+yreach*1.0}" z="${zhexa}"  color="Red"/>
+            <xacro:sphere name="ball_green"  x="${xhexa-a*4.0}" y="${yhexa}"            z="${zhexa}"  color="Green"/>
           </xacro:if>
 
         </world>
